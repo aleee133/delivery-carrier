@@ -29,6 +29,11 @@ msgid "Access Key"
 msgstr ""
 
 #. module: delivery_schenker
+#: model:ir.model.fields,field_description:delivery_schenker.field_delivery_carrier__schenker_address_number
+msgid "Address ID"
+msgstr ""
+
+#. module: delivery_schenker
 #: model:ir.model.fields.selection,name:delivery_schenker.selection__delivery_carrier__schenker_service_type__a2a
 msgid "Aiport-to-airport"
 msgstr ""
@@ -369,6 +374,13 @@ msgid "ID"
 msgstr ""
 
 #. module: delivery_schenker
+#: model:ir.model.fields,help:delivery_schenker.field_delivery_carrier__schenker_address_number
+msgid ""
+"ID assigned by Schenker to you.\n"
+"Will be part of the sender or if set, the invoice address."
+msgstr ""
+
+#. module: delivery_schenker
 #: model:ir.model.fields,help:delivery_schenker.field_delivery_carrier__schenker_default_packaging_id
 msgid ""
 "If not delivery package or the package doesn't have defined the packagingit "
@@ -376,8 +388,25 @@ msgid ""
 msgstr ""
 
 #. module: delivery_schenker
+#: model:ir.model.fields,help:delivery_schenker.field_delivery_carrier__schenker_partner_invoice_id
+msgid ""
+"If set, this contact will be sent as invoice address to Schenker.\n"
+"If Address ID is set, it will be part of it instead of the sender"
+msgstr ""
+
+#. module: delivery_schenker
 #: model:ir.model.fields,field_description:delivery_schenker.field_delivery_carrier__schenker_indoor_delivery
 msgid "Indoor Delivery"
+msgstr ""
+
+#. module: delivery_schenker
+#: model:ir.model.fields,field_description:delivery_schenker.field_delivery_carrier__schenker_partner_invoice_id
+msgid "Invoice Address"
+msgstr ""
+
+#. module: delivery_schenker
+#: model_terms:ir.ui.view,arch_db:delivery_schenker.view_delivery_carrier_form
+msgid "Invoicing"
 msgstr ""
 
 #. module: delivery_schenker
@@ -498,6 +527,7 @@ msgstr ""
 
 #. module: delivery_schenker
 #: code:addons/delivery_schenker/models/delivery_carrier.py:0
+#: code:addons/delivery_schenker/models/delivery_carrier.py:0
 #, python-format
 msgid ""
 "Schenker API doesn't provide methods to compute delivery rates, so you "
@@ -553,8 +583,27 @@ msgid "Stackable"
 msgstr ""
 
 #. module: delivery_schenker
+#: model:ir.model.fields,field_description:delivery_schenker.field_delivery_carrier__schenker_submit_booking
+msgid "Submit Booking"
+msgstr ""
+
+#. module: delivery_schenker
+#: model:ir.model.fields,help:delivery_schenker.field_delivery_carrier__schenker_submit_booking
+msgid ""
+"Submit Booking On Schenker site.\n"
+"If set, submits booking on site automatically.\n"
+"If not set, user has to submit booking manually."
+msgstr ""
+
+#. module: delivery_schenker
 #: model:ir.model.fields,help:delivery_schenker.field_delivery_carrier__schenker_measure_unit
 msgid "The proper request will be formed accordingly from the picking"
+msgstr ""
+
+#. module: delivery_schenker
+#: code:addons/delivery_schenker/models/delivery_carrier.py:0
+#, python-format
+msgid "There is no volume set on the shipping package information"
 msgstr ""
 
 #. module: delivery_schenker
@@ -595,4 +644,58 @@ msgstr ""
 #. module: delivery_schenker
 #: model:ir.model.fields.selection,name:delivery_schenker.selection__delivery_carrier__schenker_service_land__auc8
 msgid "austroexpress PUNKT 8"
+msgstr ""
+
+#. module: delivery_schenker
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_01
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_02
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_03
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_04
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_05
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_06
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_07
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_08
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_09
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_10
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_11
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_12
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_13
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_14
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_15
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_16
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_17
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_18
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_19
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_20
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_21
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_22
+#: model:product.packaging,weight_uom_name:delivery_schenker.schenker_packaging_23
+msgid "kg"
+msgstr ""
+
+#. module: delivery_schenker
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_01
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_02
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_03
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_04
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_05
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_06
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_07
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_08
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_09
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_10
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_11
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_12
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_13
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_14
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_15
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_16
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_17
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_18
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_19
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_20
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_21
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_22
+#: model:product.packaging,volume_uom_name:delivery_schenker.schenker_packaging_23
+msgid "m³"
 msgstr ""

@@ -3,7 +3,9 @@
 import base64
 from operator import attrgetter
 
-from odoo import _, exceptions, fields, models
+import lxml.html
+
+from odoo import _, api, exceptions, fields, models
 
 from ..postlogistics.web_service import PostlogisticsWebService
 
@@ -27,7 +29,7 @@ class StockPicking(models.Model):
     )
 
     def _get_packages_from_picking(self):
-        """ Get all the packages from the picking """
+        """Get all the packages from the picking"""
         self.ensure_one()
         operation_obj = self.env["stock.move.line"]
         operations = operation_obj.search(
@@ -48,6 +50,7 @@ class StockPicking(models.Model):
         return packages
 
     def get_shipping_label_values(self, label):
+        # TODO: consider to depends on base_delivery_carrier_label
         self.ensure_one()
         return {
             "name": label["name"],
@@ -59,6 +62,8 @@ class StockPicking(models.Model):
 
     def attach_shipping_label(self, label):
         """Attach a label returned by generate_shipping_labels to a picking"""
+        if self.delivery_type != "postlogistics":
+            return super().attach_shipping_label(label)
         self.ensure_one()
         data = self.get_shipping_label_values(label)
         context_attachment = self.env.context.copy()
@@ -76,6 +81,7 @@ class StockPicking(models.Model):
         """Pickings using this module must have a package
         If not this method put it one silently
         """
+        # TODO: consider to depends on base_delivery_carrier_label
         for picking in self:
             move_lines = picking.move_line_ids.filtered(
                 lambda s: not (s.package_id or s.result_package_id)
@@ -184,7 +190,7 @@ class StockPicking(models.Model):
     def _generate_postlogistics_label(
         self, webservice_class=None, package_ids=None, skip_attach_file=False
     ):
-        """ Generate labels and write tracking numbers received """
+        """Generate labels and write tracking numbers received"""
         self.ensure_one()
         user = self.env.user
         company = user.company_id
@@ -215,6 +221,7 @@ class StockPicking(models.Model):
         # Case when there is a failed label, rollback odoo data
         if failed_label_results:
             self._cr.rollback()
+            self = self.exists()
 
         labels = self.write_tracking_number_label(success_label_results, packages)
 
@@ -226,11 +233,23 @@ class StockPicking(models.Model):
             # Commit the change to save the changes,
             # This ensures the label pushed recored correctly in Odoo
             self._cr.commit()  # pylint: disable=invalid-commit
-            error_message = "\n".join(label["errors"] for label in failed_label_results)
-            raise exceptions.Warning(error_message)
+            error_message = "\n".join(
+                self._cleanup_error_message(label["errors"])
+                for label in failed_label_results
+            )
+            raise exceptions.UserError(
+                _("PostLogistics error:") + "\n\n" + error_message
+            )
         return labels
 
+    @api.model
+    def _cleanup_error_message(self, error_message):
+        """Cleanup HTML error message to be readable by users."""
+        texts_no_html = lxml.html.fromstring(error_message).text_content()
+        texts = [text for text in texts_no_html.split("\n") if text]
+        return "\n".join(texts)
+
     def generate_postlogistics_shipping_labels(self, package_ids=None):
-        """ Add label generation for PostLogistics """
+        """Add label generation for PostLogistics"""
         self.ensure_one()
         return self._generate_postlogistics_label(package_ids=package_ids)

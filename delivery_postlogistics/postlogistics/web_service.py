@@ -297,7 +297,7 @@ class PostlogisticsWebService(object):
         return "%02d%s" % (pack_num, picking_num[-6:].zfill(6))
 
     def _prepare_item_list(self, picking, recipient, packages):
-        """ Return a list of item made from the pickings """
+        """Return a list of item made from the pickings"""
         carrier = picking.carrier_id
         item_list = []
         pack_counter = 1
@@ -455,9 +455,9 @@ class PostlogisticsWebService(object):
 
     def _sanitize_string(self, value):
         """Removes disallowed chars ("|", "\", "<", ">", "’", "‘") from strings."""
-        if isinstance(value, str):
-            for char, repl in DISALLOWED_CHARS_MAPPING.items():
-                value = value.replace(char, repl)
+        value = value or ""
+        for char, repl in DISALLOWED_CHARS_MAPPING.items():
+            value = value.replace(char, repl)
         return value
 
     def generate_label(self, picking, packages):

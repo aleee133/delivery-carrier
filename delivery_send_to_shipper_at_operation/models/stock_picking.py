@@ -1,4 +1,5 @@
 # Copyright 2021 Camptocamp SA
+# Copyright 2023 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 from lxml import etree
@@ -16,7 +17,7 @@ from odoo.addons.base.models.ir_ui_view import (
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    delivery_notification_sent = fields.Boolean(default=False)
+    delivery_notification_sent = fields.Boolean(default=False, copy=False)
 
     def _send_confirmation_email(self):
         for picking in self:
@@ -53,7 +54,10 @@ class StockPicking(models.Model):
                 self.delivery_notification_sent = True
                 related_ship.delivery_notification_sent = True
                 related_ship.carrier_price = self.carrier_price
-                related_ship.carrier_tracking_ref = self.carrier_tracking_ref
+                if not related_ship.carrier_tracking_ref:
+                    related_ship.carrier_tracking_ref = self.carrier_tracking_ref
+                else:
+                    related_ship.carrier_tracking_ref += "," + self.carrier_tracking_ref
                 return True
         return False
 
